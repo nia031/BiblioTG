@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="col-sm-12">
+        <div class="ibox">
+            <div class="ibox-content">   
+            	<form method="POST" action="{% url 'home' %}">
+            		<div class="input-group">
+						{% csrf_token %}						
+                        <input name="titulo" type="text" placeholder="Search book " class="input form-control">
+                        <span class="input-group-btn">
+                                <button type="submit" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
+                        </span>
+                    </div>
+                </form>                                             
+                {% if biblioteca %}
+			    <div class="table-responsive">
+			    	<div id="DataTables_Table_0_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">                    
+			    	<table class="table table-striped table-bordered table-hover dataTables-example dataTable" aria-describedby="DataTables_Table_0_info" role="grid">			        		            
+			    		<thead>
+			    			 <tr role="row">			    			
+		                        <th>ISBN</th>
+		                        <th>Title</th>
+		                        <th>Author</th>		                        
+		                        <th>Publisher</th>
+		                        <th>Year</th>
+		                        <th>Options</th>		                        
+		                    </tr>
+			    		</thead>
+			            <tbody>
+			           	{% for biblio in biblioteca %}			            
+			            <tr>                                			                
+			                <td>
+			                    {{biblio.0.5}}
+			                </td>
+			                <td class="project-title">			                    
+			                    <p>{{biblio.0.1}}</p>
+			                    <br/>
+			                </td>
+			            	<td>
+			                    {{biblio.0.0}}
+			                </td>	
+			                <td>
+			                    {{biblio.0.6}}
+			                </td>			                	
+			                <td>
+			                    {{biblio.0.7}}
+			                </td>	                
+			               
+			                <td class="project-actions"> 
+			                	{% url 'bx_library:colaborativo' biblio.0.5 as title_url %}                                   
+			                    <a href="{{ title_url }}" class="btn btn-primary btn-sm"><i class="fa fa-book"></i> Ver recomendaciones </a>
+			                </td>
+			            </tr>
+			            {% endfor %}                                                          
+			            </tbody>            
+			        </table>
+			        <!--div class="dataTables_paginate paging_simple_numbers" id="DataTables_Table_0_paginate"><ul class="pagination"><li class="paginate_button previous" id="DataTables_Table_0_previous"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="0" tabindex="0">Previous</a></li><li class="paginate_button "><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="1" tabindex="0">1</a></li><li class="paginate_button active"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="2" tabindex="0">2</a><li class="paginate_button next" id="DataTables_Table_0_next"><a href="#" aria-controls="DataTables_Table_0" data-dt-idx="4" tabindex="0">Next</a></li></ul></div-->
+			    </div>
+			    {% endif %}
+			</div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/plugins/dataTables/datatables.min.js' %}"></script>
+<script>
+        $(document).ready(function(){
+            $('.dataTables-example').DataTable({
+                pageLength: 25,
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',                
+            });
+        });
+    </script>
+{% endblock %}

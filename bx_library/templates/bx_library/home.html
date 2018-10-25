@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{%load staticfiles %}
+{% block content %}
+
+<div class="wrapper wrapper-content  animated fadeInRight">
+    <div class="col-sm-12">
+        <div class="ibox">        	                     
+            <div class="ibox-content">   
+            	<form method="POST" action="{% url 'home' %}">
+            		<div class="input-group">
+						{% csrf_token %}						
+                        <input name="titulo" type="text" placeholder="Search book " class="input form-control">
+                        <span class="input-group-btn">
+                                <button type="submit" class="btn btn btn-primary"> <i class="fa fa-search"></i> Search</button>
+                        </span>
+                    </div>
+                </form>                                 
+			</div>			
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="{% static 'js/plugins/dataTables/datatables.min.js' %}"></script>
+<script>
+        $(document).ready(function(){
+            $('.dataTables-example').DataTable({
+                pageLength: 25,
+                responsive: true,
+                dom: '<"html5buttons"B>lTfgitp',                
+            });
+        });
+    </script>
+    <script src="{% static 'js/plugins/chartJs/Chart.min.js' %}"></script>
+    <script src="{% static 'js/chartjs-demo.js' %}"></script>
+{% endblock %}
