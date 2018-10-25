@@ -2,11 +2,9 @@ from django.shortcuts import render
 from .models import BxUsers, BxBooks, BxBookRatings
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.neighbors import NearestNeighbors
 from scipy.sparse import csr_matrix
 import sklearn
-from fuzzywuzzy import fuzz
 from django.db.models import Q
 import time
 import warnings

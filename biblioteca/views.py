@@ -4,12 +4,8 @@ from .models import Titles, Transacciones, Notas, Materias
 import time
 import pandas as pd
 import psycopg2
-
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
-#from nltk.stem.snowball import SnowballStemmer
-#from nltk.stem.wordnet import WordNetLemmatizer
-#from nltk.corpus import wordnet
 
 # Create your views here.
 def home(request):
@@ -23,7 +19,7 @@ def home(request):
 
 def rec_contenido(request,title):
 
-    conn = psycopg2.connect(host="localhost", dbname="producthuntdb", user="postgres", password="1234", port="5433")
+    conn = psycopg2.connect(host="localhost", dbname="bibliocarvajaldb", user="postgres", password="1234", port="5433")
     query = """
       SELECT A.titleno, A.title, A.subtitle, A.subject, A.note, A.fname,A.sname
         FROM(  Select titles.titleno,title,subtitle,subject,note,fname,sname,
