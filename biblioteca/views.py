@@ -7,7 +7,7 @@ import psycopg2
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import linear_kernel, cosine_similarity
 
-# Create your views here.
+
 def home(request):
     titles=Titles.objects.filter()[:10]
     
@@ -33,29 +33,19 @@ def rec_contenido(request,title):
                 ) A
         WHERE A.RN = 1;
     """
-    # query = """
-    #     SELECT titles.titleno, title, subtitle, subject, note, fname, sname
-    #     FROM notas JOIN titles on notas.titleno=titles.titleno 
-    #     JOIN title_mat on title_mat.titleno=titles.titleno 
-    #     JOIN materias on materias.id_subject=title_mat.id_subject 
-    #     Join title_author on title_author.titleno=titles.titleno
-    #     join authors on authors.authorno=title_author.authorno ;
-    # """
 
     startTime = time.time()
     data = pd.read_sql(query, conn)
-    ##data =data.head(100)
     
     data['note'] = data['note'].fillna('')
     data['description'] = data['subject'] + " "+ data['note']
     data['description'] = data['description'].fillna('')
 
 
-    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english')
+    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english',norm='l2') 
+    #transforms text to feature vectors that can be used as input to estimator.
     ######ngram (1,3) can be explained as follows#####
-    #ngram(1,3) encompasses uni gram, bi gram and tri gram
-    #consider the sentence "The ball fell"
-    #ngram (1,3) would be the, ball, fell, the ball, ball fell, the ball fell
+    #ngram(1,3) encompasses uni gram, bi gram and tri gram    
     tfidf_matrix = tf.fit_transform(data['description'])
     
     lin_kernel = linear_kernel(tfidf_matrix, tfidf_matrix)  

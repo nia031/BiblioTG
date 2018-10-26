@@ -18,24 +18,23 @@ def crear_matriz():
     combine_book_rating = pd.merge(ratings, books, right_on='isbn', left_on='isbn_id')
     columns= ['prediction','isbn_id','id', 'imageurll', 'imageurlm', 'imageurls']
     combine_book_rating = combine_book_rating.drop(columns, axis=1)
-    #print(combine_book_rating.head())
+    
     combine_book_rating = combine_book_rating.dropna(axis=0, subset=['isbn'])
     book_ratingCount = (combine_book_rating.groupby(by = ['isbn'])['book_rating'].count().
         reset_index().rename(columns={'book_rating': 'totalRatingCount'})[['isbn','totalRatingCount']])
-    #print(book_ratingCount.head())
+    
     rating_with_totalRatingCount = combine_book_rating.merge(book_ratingCount, 
         left_on = 'isbn', right_on = 'isbn', how = 'left')
-    #print(rating_with_totalRatingCount.head())
+    
     popularity_threshold = 50
     rating_popular_book = rating_with_totalRatingCount.query('totalRatingCount >= @popularity_threshold')
-    #print(rating_popular_book.head())
+    
     combined = rating_popular_book.merge(users, left_on = 'user_id', right_on = 'user_id', how = 'left')
 
     us_canada_user_rating = combined[combined['location'].str.contains("usa|canada")]
     us_canada_user_rating=us_canada_user_rating.drop('age', axis=1)    
 
-    if not us_canada_user_rating[us_canada_user_rating.duplicated(['user_id', 'isbn'])].empty:
-        print("entro")
+    if not us_canada_user_rating[us_canada_user_rating.duplicated(['user_id', 'isbn'])].empty:        
         initial_rows = us_canada_user_rating.shape[0]
         us_canada_user_rating = us_canada_user_rating.drop_duplicates(['user_id', 'isbn'])
         current_rows = us_canada_user_rating.shape[0]

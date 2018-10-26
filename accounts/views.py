@@ -21,12 +21,8 @@ def logout(request):
     if request.method == 'POST':
         auth.logout(request)
         return redirect('accounts:login')
-
+        
 def profile(request):
-    
-
-    #TRANSACCION: id,fecha,id_tipo_trans,usuario,id_localizacion,titleno, copieno
     trans_user=Transacciones.objects.filter(usuario=request.user.get_username())
-
     
     return render(request,'accounts/profile.html',{'transacciones':trans_user})
