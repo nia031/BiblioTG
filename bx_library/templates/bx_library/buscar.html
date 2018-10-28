@@ -6,6 +6,11 @@
     <div class="col-sm-12">
         <div class="ibox">
             <div class="ibox-content">   
+      			<div>
+                    <h2>
+                        Ingrese una o varias palabras claves sobre el libro a consultar (en inglés)
+                    </h2>
+                </div> 
             	<form method="POST" action="{% url 'home' %}">
             		<div class="input-group">
 						{% csrf_token %}						

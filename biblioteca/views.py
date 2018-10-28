@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404, render_to_response
 from django.contrib.auth.decorators import login_required
-from .models import Titles, Transacciones, Notas, Materias
+from .models import Titles
 import time
 import pandas as pd
 import psycopg2
@@ -53,7 +53,11 @@ def rec_contenido(request,title):
 
     datos = data.reset_index()
     indices = pd.Series(datos.index, index=datos['titleno'])
+    print(indices)
+    print("AQUI")
+    print(title)
     idx = indices[title]  
+    print(idx)
     libro = data.iloc[idx]
     libro_target =libro.title
     

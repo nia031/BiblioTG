@@ -5,7 +5,12 @@
 <div class="wrapper wrapper-content  animated fadeInRight">
     <div class="col-sm-12">
         <div class="ibox">        	                     
-            <div class="ibox-content">   
+            <div class="ibox-content">  
+                <div>
+                    <h2>
+                        Ingrese una o varias palabras claves sobre el título o autor del libro a consultar (en inglés)
+                    </h2>
+                </div> 
             	<form method="POST" action="{% url 'home' %}">
             		<div class="input-group">
 						{% csrf_token %}						

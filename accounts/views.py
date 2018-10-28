@@ -24,5 +24,8 @@ def logout(request):
         
 def profile(request):
     trans_user=Transacciones.objects.filter(usuario=request.user.get_username())
-    
-    return render(request,'accounts/profile.html',{'transacciones':trans_user})
+
+    if request.user.is_authenticated:
+        return render(request,'accounts/profile.html',{'transacciones':trans_user})
+    else:
+        return render(request, 'accounts/login.html')
