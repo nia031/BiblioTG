@@ -4,27 +4,7 @@
 <div class="wrapper wrapper-content  animated fadeInRight">
     <div class="row">
         <div class="col-sm-8">
-            <div class="ibox">
-                <div class="ibox-content text-center">                                     
-                    <button id="reporte_contenido" class="btn btn btn-primary" data-toggle="modal" data-target="#myModal"> <i class="fa fa-bar-chart"></i> Reporte</button>                    
-                    <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content animated bounceInRight">                                                        
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>                                
-                                </div>
-                                <div class="modal-body">
-                                    <div class="ibox-content">
-                                        <canvas id="barChart" height="140"></canvas>
-                                    </div>                                                        
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="ibox">                
                 <div class="ibox-content">                            
                     <h2>Recomendaciones</h2>
                     <p>
@@ -126,6 +106,28 @@
                             </div>
                         </div>
                         {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="ibox">
+            <div class="ibox-content text-center">                                     
+                <button id="reporte_contenido" class="btn btn btn-primary" data-toggle="modal" data-target="#myModal"> <i class="fa fa-bar-chart"></i> Reporte</button>                    
+                <div class="modal inmodal" id="myModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content animated bounceInRight">                                                        
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>                                
+                            </div>
+                            <div class="modal-body">
+                                <div class="ibox-content">
+                                    <canvas id="barChart" height="140"></canvas>
+                                </div>                                                        
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

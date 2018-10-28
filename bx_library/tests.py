@@ -49,7 +49,7 @@ def inicio():
 
 	us_canada_user_rating, books = crear_matriz()
 
-	seleccion_random = us_canada_user_rating.sample(n=10)
+	seleccion_random = us_canada_user_rating.sample(n=30)
 
 	matriz_col = []
 	for i in seleccion_random.index:

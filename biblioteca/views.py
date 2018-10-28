@@ -52,12 +52,8 @@ def rec_contenido(request,title):
     cosine_similarities = cosine_similarity(tfidf_matrix,tfidf_matrix)      
 
     datos = data.reset_index()
-    indices = pd.Series(datos.index, index=datos['titleno'])
-    print(indices)
-    print("AQUI")
-    print(title)
+    indices = pd.Series(datos.index, index=datos['titleno'])    
     idx = indices[title]  
-    print(idx)
     libro = data.iloc[idx]
     libro_target =libro.title
     
