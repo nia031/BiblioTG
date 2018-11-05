@@ -35,47 +35,44 @@ def rec_contenido(request,title):
     """
 
     startTime = time.time()
-    data = pd.read_sql(query, conn)
+    datos_libros = pd.read_sql(query, conn)
     
-    data['note'] = data['note'].fillna('')
-    data['description'] = data['subject'] + " "+ data['note']
-    data['description'] = data['description'].fillna('')
+    datos_libros['note'] = datos_libros['note'].fillna('')
+    datos_libros['description'] = datos_libros['subject'] + " "+ datos_libros['note']
+    datos_libros['description'] = datos_libros['description'].fillna('')
 
-
-    tf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english',norm='l2') 
-    #transforms text to feature vectors that can be used as input to estimator.
-    ######ngram (1,3) can be explained as follows#####
-    #ngram(1,3) encompasses uni gram, bi gram and tri gram    
-    tfidf_matrix = tf.fit_transform(data['description'])
+    tfidf = TfidfVectorizer(analyzer='word',ngram_range=(1, 2),min_df=0, stop_words='english',norm='l2') 
     
-    lin_kernel = linear_kernel(tfidf_matrix, tfidf_matrix)  
-    cosine_similarities = cosine_similarity(tfidf_matrix,tfidf_matrix)      
+    matriz_tfidf = tfidf.fit_transform(datos_libros['description'])
+    
+    linear_kernel = linear_kernel(matriz_tfidf, matriz_tfidf)  
+    similaridad_coseno = cosine_similarity(matriz_tfidf,matriz_tfidf)      
 
-    datos = data.reset_index()
+    datos = datos_libros.reset_index()
     indices = pd.Series(datos.index, index=datos['titleno'])    
-    idx = indices[title]  
-    libro = data.iloc[idx]
-    libro_target =libro.title
+    ind_libro = indices[title]  
+    libro_info = datos_libros.iloc[ind_libro]
+    libro_target =libro_info.title
     
     libros_k={}          
-    k_scores = list(enumerate(lin_kernel[idx]))
+    k_scores = list(enumerate(linear_kernel[ind_libro]))
     k_scores = sorted(k_scores, key=lambda x: x[1], reverse=True)
     k_scores = k_scores[1:11]
     k_indices = [i[0] for i in k_scores]
-    libros_k=data.iloc[k_indices]
+    libros_k=datos_libros.iloc[k_indices]
     libros_k['score'] = [str(i[1]) for i in k_scores]   
     libros_k=libros_k.reset_index().T.to_dict('list')    
 
     libros_s={}
-    sim_scores = list(enumerate(cosine_similarities[idx]))
+    sim_scores = list(enumerate(similaridad_coseno[ind_libro]))
     sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
     sim_scores = sim_scores[1:11]
     sim_indices = [i[0] for i in sim_scores]
-    libros_s=data.iloc[sim_indices]
+    libros_s=datos_libros.iloc[sim_indices]
     libros_s['score'] = [str(i[1]) for i in sim_scores]        
     libros_s=libros_s.reset_index().T.to_dict('list')    
 
-    print ('The script took {0} second !'.format(time.time() - startTime))    
+    print ('El script tomó {0} segundos'.format(time.time() - startTime))    
     return render(request, 'biblioteca/rec_contenido.html',{'target': libro_target,'titulo': title, 'libros_k':libros_k, 'libros_s':libros_s})
 
     
