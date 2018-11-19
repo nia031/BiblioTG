@@ -56,7 +56,7 @@ def rec_contenido(title):
     
     matriz_tfidf = tfidf.fit_transform(datos_libros['description'])
 
-	linear_kernel = linear_kernel(matriz_tfidf, matriz_tfidf)  
+	linearkernel = linear_kernel(matriz_tfidf, matriz_tfidf)  
     similaridad_coseno = cosine_similarity(matriz_tfidf,matriz_tfidf)      
 	
 	datos = datos_libros.reset_index()
@@ -64,7 +64,7 @@ def rec_contenido(title):
 	ind_libro = indices[title]  
 
 	libros_k={}          
-    k_scores = list(enumerate(linear_kernel[ind_libro]))
+    k_scores = list(enumerate(linearkernel[ind_libro]))
     k_scores = sorted(k_scores, key=lambda x: x[1], reverse=True)
     k_scores = k_scores[1:11]
     k_indices = [i[0] for i in k_scores]
